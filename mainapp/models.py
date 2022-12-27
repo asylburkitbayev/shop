@@ -55,10 +55,10 @@ class CartProduct(models.Model):
 
 class Cart(models.Model):
     owner = models.ForeignKey('Customer', on_delete=models.CASCADE, verbose_name='Пользователь', null=True, blank=True)
-    product = models.ManyToManyField(CartProduct, blank=True, null=True, related_name='related_cart')
+    products = models.ManyToManyField(CartProduct, blank=True, null=True, related_name='related_cart')
     total_products = models.PositiveIntegerField(default=0)
     final_price = models.DecimalField(max_digits=9, default=0, decimal_places=2, verbose_name='Общая сумма')
-    id_order = models.BooleanField(default=False)
+    in_order = models.BooleanField(default=False)
     for_anonymous_user = models.BooleanField(default=False)
 
     def __str__(self):
@@ -69,7 +69,7 @@ class Customer(models.Model):
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
     phone = models.CharField(max_length=20, verbose_name='Номер телефона', blank=True, null=True)
     address = models.CharField(max_length=200, verbose_name='Адрес', blank=True, null=True)
-    order = models.ManyToManyField('Order', verbose_name='Заказы покупателя', related_name='related_order')
+    orders = models.ManyToManyField('Order', verbose_name='Заказы покупателя', related_name='related_order')
 
     def __str__(self):
         return f"Покупатель {self.user.first_name} {self.user.last_name}"
@@ -79,7 +79,7 @@ class Order(models.Model):
     STATUS_NEW = 'new'
     STATUS_IN_PROGRESS = 'in_progress'
     STATUS_READY = 'ready'
-    STATUS_COMPLETED = 'complited'
+    STATUS_COMPLETED = 'completed'
 
     BUYING_TYPE_SELF = 'self'
     BUYING_TYPE_DELIVERY = 'delivery'

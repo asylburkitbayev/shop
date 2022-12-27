@@ -37,5 +37,5 @@ class ProductFeature(models.Model):
 
     def __str__(self):
         return f"Товар {self.product}|" \
-               f"Характеристика {self.feature_name} |" \
+               f"Характеристика {self.feature.feature_name} |" \
                f"Значение {self.value}"
